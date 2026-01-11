@@ -59,6 +59,24 @@ export const rbacService = {
         }
     },
 
+    createPermission: async (data: { resource: string; action: string; description?: string }): Promise<Result<Permission>> => {
+        try {
+            const response = await fetch('/api/rbac/permissions', {
+                method: 'POST',
+                headers: getHeaders(),
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                return failure(err.message, ErrorCodes.SERVER_ERROR);
+            }
+            const permission = await response.json();
+            return success(permission);
+        } catch (error: any) {
+            return failure(String(error), ErrorCodes.UNKNOWN_ERROR);
+        }
+    },
+
     createRole: async (data: { name: string; description?: string; permissions: string[] }): Promise<Result<Role>> => {
         try {
             const response = await fetch('/api/rbac/roles', {

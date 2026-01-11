@@ -19,6 +19,38 @@ router.get('/permissions', async (req, res) => {
     }
 });
 
+// POST /api/rbac/permissions
+// Create a new dynamic permission
+router.post('/permissions', async (req, res) => {
+    try {
+        const { resource, action, description } = req.body;
+        const tenantId = req.tenantId;
+
+        if (!resource || !action) {
+            return res.status(400).json({ message: 'Resource and Action are required' });
+        }
+
+        const name = `${resource}.${action}`;
+        const existing = await Permission.findOne({ name });
+        if (existing) {
+            return res.status(400).json({ message: 'Permission already exists' });
+        }
+
+        const newPermission = new Permission({
+            resource,
+            action,
+            name,
+            description,
+            scope: req.user?.isSuperAdmin ? 'system' : 'tenant'
+        });
+
+        await newPermission.save();
+        res.status(201).json(newPermission);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // GET /api/rbac/roles
 // List roles visible to current tenant
 router.get('/roles', async (req, res) => {

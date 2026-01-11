@@ -21,9 +21,12 @@ const tenantMiddleware = require('./middleware/tenant');
 const authRoutes = require('./routes/auth');
 const rbacRoutes = require('./routes/rbac');
 const userRoutes = require('./routes/users');
+const saasRoutes = require('./routes/saas');
 
 // Routes Registry
 app.use('/api/auth', authRoutes);
+// Public SaaS routes (Register is public)
+app.use('/api/saas', saasRoutes);
 // RBAC routes need auth and tenant context
 app.use('/api/rbac', authMiddleware, tenantMiddleware, rbacRoutes);
 app.use('/api/users', authMiddleware, tenantMiddleware, userRoutes);
@@ -95,9 +98,9 @@ app.post('/api/saas/seed', async (req, res) => {
 
         // 5. Create Products (Isolated!)
         await Product.create([
-            { name: 'iPhone 15', price: 999, category: 'Electronics', tenantId: tenantA._id, image: 'https://via.placeholder.com/150' },
-            { name: 'Samsung S24', price: 899, category: 'Electronics', tenantId: tenantA._id, image: 'https://via.placeholder.com/150' },
-            { name: 'Jean Jacket', price: 50, category: 'Clothing', tenantId: tenantB._id, image: 'https://via.placeholder.com/150' }
+            { name: 'iPhone 15', price: 999, category: 'Electronics', tenantId: tenantA._id, image: 'https://placehold.co/150' },
+            { name: 'Samsung S24', price: 899, category: 'Electronics', tenantId: tenantA._id, image: 'https://placehold.co/150' },
+            { name: 'Jean Jacket', price: 50, category: 'Clothing', tenantId: tenantB._id, image: 'https://placehold.co/150' }
         ]);
 
         res.json({ message: 'SaaS Environment Seeded!', tenants: [tenantA.name, tenantB.name] });

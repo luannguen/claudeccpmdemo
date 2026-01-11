@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ProductDTO } from '@/services/productService';
 import { Icon } from '@/components/ui/AnimatedIcon';
 
@@ -7,13 +8,23 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+    const [imageError, setImageError] = useState(false);
+
     return (
         <div className="bg-white dark:bg-zinc-900 rounded-xl overflow-hidden shadow-lg border border-zinc-200 dark:border-zinc-800 transition-all hover:scale-[1.02]">
             <div className="h-48 overflow-hidden bg-zinc-100 flex items-center justify-center relative">
-                {product.image ? (
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                {product.image && !imageError ? (
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                        onError={() => setImageError(true)}
+                    />
                 ) : (
-                    <Icon.Ban className="w-12 h-12 text-zinc-300" />
+                    <div className="flex flex-col items-center justify-center text-zinc-400">
+                        <Icon.Ban className="w-12 h-12 mb-2 opacity-50" />
+                        <span className="text-xs">No Image</span>
+                    </div>
                 )}
                 <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded-full text-xs backdrop-blur-sm">
                     {product.category}

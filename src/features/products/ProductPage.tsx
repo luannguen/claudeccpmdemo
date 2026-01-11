@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/features/useAuth';
+import { useAuth } from '@/hooks/common/useAuth';
 import { useProductList } from '@/hooks/features/useProductList';
 import { ProductGrid } from './ProductGrid';
 import { productService } from '@/services/productService';
@@ -17,7 +17,7 @@ export default function ProductPage() {
     };
 
     const handleLogin = async () => {
-        const success = await login('manager@a.com');
+        const success = await login('manager@a.com', '123');
         if (success) {
             setToast({ msg: 'Logged in as Manager (Real Data)', type: 'success' });
             setTimeout(() => navigate('/admin/roles'), 1000);

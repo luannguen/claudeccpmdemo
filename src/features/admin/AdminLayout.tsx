@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
-import { useAuth } from '../../hooks/features/useAuth';
+import { useAuth } from '../../hooks/common/useAuth';
 import { Icon } from '../../components/ui/AnimatedIcon';
 
 export function AdminLayout() {
@@ -43,6 +43,11 @@ export function AdminLayout() {
                             Users
                         </Link>
                     )}
+
+                    <Link to="/admin/permissions" className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <Icon.Key className="w-5 h-5" />
+                        Permissions
+                    </Link>
 
                     {hasPermission('tenant.manage') && (
                         <div className="mt-6 pt-6 border-t dark:border-gray-700">

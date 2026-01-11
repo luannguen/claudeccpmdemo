@@ -1,7 +1,8 @@
 import {
     Loader2, CheckCircle, AlertCircle, AlertTriangle, Info, Ban,
     Bell, Send, Plus, Minus, Trash, Edit, Save, X, Copy, Download, Upload,
-    ShoppingCart, ShieldCheck, LayoutGrid, Lock, Users, Building, Shield, Globe
+    ShoppingCart, ShieldCheck, LayoutGrid, Lock, Users, Building, Shield, Globe,
+    ShoppingBag, TrendingUp, ArrowRight, User, Layout, Link, Key
 } from 'lucide-react';
 import type { ComponentProps } from 'react';
 
@@ -17,5 +18,6 @@ export const Icon = {
 
     // Logic / UI Icons
     Bell, Send, Plus, Minus, Trash, Edit, Save, X, Copy, Download, Upload,
-    ShoppingCart, ShieldCheck, LayoutGrid, Lock, Users, Building, Shield, Globe, Loader2
+    ShoppingCart, ShoppingBag, ShieldCheck, LayoutGrid, Lock, Users, User, Building, Shield, Globe, Loader2,
+    TrendingUp, ArrowRight, Layout, Link, Key
 };

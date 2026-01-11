@@ -110,5 +110,23 @@ export const useCaseRegistry = [
         output: 'Result<boolean>',
         service: 'userService.deleteUser',
         hook: 'useUserManagement',
+    },
+    {
+        id: 'saas.register',
+        domain: 'saas',
+        description: 'Register a new tenant and user',
+        input: '{ email, password, name, shopName, shopDomain, plan }',
+        output: 'Result<RegisterResponse>',
+        service: 'saasService.register',
+        hook: 'useRegister',
+    },
+    {
+        id: 'saas.subscribe',
+        domain: 'saas',
+        description: 'Update subscription plan',
+        input: '{ tenantId, plan }',
+        output: 'Result<Tenant>',
+        service: 'saasService.subscribe',
+        hook: 'useSubscription',
     }
 ];
