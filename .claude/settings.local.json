@@ -5,36 +5,18 @@
       "Bash(.claude/scripts/test-and-log.sh:*)",
       "Bash(bash .claude/scripts/pm/*)",
       "Bash(.claude/scripts/pm/*)",
-
       "Bash(cat:*)",
-      "Bash(cat:*)",
-      "Bash(composer:*)",
       "Bash(fi)",
       "Bash(find:*)",
       "Bash(gh:*)",
       "Bash(git:*)",
       "Bash(grep:*)",
-      "Bash(kill:*)",
-      "Bash(ln:*)",
       "Bash(ls:*)",
+      "Bash(mkdir:*)",
       "Bash(mv:*)",
       "Bash(npm:*)",
       "Bash(npx:*)",
-      "Bash(pnpm:*)",
-      "Bash(pytest:*)",
-      "Bash(python:*)",
-      "Bash(mvn:*)",
-      "Bash(gradle:*)",
-      "Bash(dotnet:*)",
-      "Bash(cargo:*)",
-      "Bash(go:*)",
-      "Bash(swift:*)",
-      "Bash(flutter:*)",
-      "Bash(bundle:*)",
-      "Bash(ctest:*)",
-      "Bash(make:*)",
       "Bash(rm:*)",
-      "Bash(ruff:*)",
       "Bash(sed:*)",
       "Bash(touch:*)",
       "Bash(tree:*)",
@@ -42,5 +24,15 @@
       "WebFetch(domain:github.com)",
       "WebSearch"
     ]
+  },
+  "hooks": {
+    "pre-tool-use": {
+      "Bash": {
+        "enabled": true,
+        "script": ".claude/hooks/bash-worktree-fix.sh",
+        "description": "Automatically prepends worktree path to Bash commands when in a worktree",
+        "apply_to_subagents": true
+      }
+    }
   }
 }

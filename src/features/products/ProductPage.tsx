@@ -1,16 +1,30 @@
+import { useAuth } from '@/hooks/features/useAuth';
 import { useProductList } from '@/hooks/features/useProductList';
 import { ProductGrid } from './ProductGrid';
 import { productService } from '@/services/productService';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductPage() {
     const { products, isLoading, error, refresh } = useProductList();
+    const { login, user, logout } = useAuth();
     const [toast, setToast] = useState<{ msg: string, type: 'success' | 'error' } | null>(null);
+    const navigate = useNavigate();
 
     const handleAddToCart = (product: any) => {
         setToast({ msg: `Added ${product.name} to cart`, type: 'success' });
         setTimeout(() => setToast(null), 3000);
     };
+
+    const handleLogin = async () => {
+        const success = await login('manager@a.com');
+        if (success) {
+            setToast({ msg: 'Logged in as Manager (Real Data)', type: 'success' });
+            setTimeout(() => navigate('/admin/roles'), 1000);
+        } else {
+            setToast({ msg: 'Login Failed', type: 'error' });
+        }
+    }
 
     const handleSeed = async () => {
         const res = await productService.seed();
@@ -27,12 +41,21 @@ export default function ProductPage() {
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">Our Products</h1>
-                    <button
-                        onClick={handleSeed}
-                        className="px-4 py-2 text-sm bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg transition-colors text-zinc-900 dark:text-zinc-100"
-                    >
-                        Seed Database
-                    </button>
+                    <div className="flex gap-2">
+                        {user ? (
+                            <button onClick={logout} className="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg">Logout ({user.email})</button>
+                        ) : (
+                            <button onClick={handleLogin} className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors">
+                                Login as Manager
+                            </button>
+                        )}
+                        <button
+                            onClick={handleSeed}
+                            className="px-4 py-2 text-sm bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 rounded-lg transition-colors text-zinc-900 dark:text-zinc-100"
+                        >
+                            Seed Database
+                        </button>
+                    </div>
                 </div>
 
                 {error && (
